@@ -1,7 +1,56 @@
 #include "cs_texteditor.h"
 
+int count_words_as_white_space_separated_characters(Document& doc) {
+	int count{ 0 };
+	Text_iterator iter = doc.begin();
+
+	if (!iter)
+		throw std::exception("Invalid Document");
+	// check if empty
+	// count at the first word of a character
+	// then skip to a space, then skip until not space.
+	
+	while(iter && !std::isalnum(*iter))		// get to the first character
+		++iter;
+
+	while(iter && std::isalnum(*iter))
+	{
+		++count;
+		while (iter && !std::isspace(*iter))	// skip valids
+			++iter;
+		while (iter && std::isspace(*iter))		// skip invalids
+			++iter;
+	}
+
+	return count;
+}
+int count_words_as_alphabetic_sequences(Document& doc) {
+	int count{ 0 };
+	Text_iterator iter = doc.begin();
+
+	if (!iter)
+		throw std::exception("Invalid Document");
+	// check if empty
+	// count at the first word of a character
+	// then skip to a space, then skip until not space.
+
+	while (iter && !std::isalpha(*iter))		// get to the first alphabetical character
+		++iter;
+
+	while (iter && std::isalpha(*iter))
+	{
+		++count;
+		while (iter && std::isalpha(*iter))		// skip only alphabetical characters in a word
+			++iter;
+		while (iter && !std::isalpha(*iter))	// skip invalids (non alphabetical characters)
+			++iter;
+	}
+
+	return count;
+}
+
 int count_characters(Document& doc) {
-	int count = 0;
+	int count{ 0 };
 	Text_iterator iter = doc.begin();
 
 	if (!iter)

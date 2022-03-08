@@ -8,10 +8,11 @@
 #include <list>
 #include <algorithm>
 #include <exception>
+#include <cctype>
 
 using Line = std::vector<char>;
 
-// we need to iterate past characters, ignoring line breaks
+// iterate past characters, ignoring line breaks
 class Text_iterator {
 	std::list<Line>::iterator ln; // line
 	Line::iterator pos;		// character position in line/vector<char>
@@ -67,6 +68,7 @@ Text_iterator find_txt(Text_iterator first, Text_iterator last, const std::strin
 template<typename T, typename E> T find(T first, T last, E& element); // used by find_txt
 void find_and_replace(Document& d, const std::string& repl, const std::string& with);
 int count_characters(Document& doc);	// count letters and spaces but not newlines
-
+int count_words_as_white_space_separated_characters(Document&); // count words but not newlines
+int count_words_as_alphabetic_sequences(Document&);				// count words but not newlines
 
 #endif
