@@ -70,5 +70,6 @@ void find_and_replace(Document& d, const std::string& repl, const std::string& w
 int count_characters(Document& doc);	// count letters and spaces but not newlines
 int count_words_as_white_space_separated_characters(Document&); // count words but not newlines
 int count_words_as_alphabetic_sequences(Document&);				// count words but not newlines
+int count_words_as_user_defined(Document& doc, std::vector<char> vect);	// count words as user-defined
 
 #endif

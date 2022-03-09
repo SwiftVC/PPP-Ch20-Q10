@@ -1,5 +1,42 @@
 #include "cs_texteditor.h"
 
+bool invalid_character_check(char iter_char, const std::vector<char>& vect);	// helper function
+int count_words_as_user_defined(Document& doc, std::vector<char> vect) {
+	int count{ 0 };
+	Text_iterator iter = doc.begin();
+
+	if (!iter)
+		throw std::exception("Invalid Document");
+	if (vect.size() == 0)
+		throw std::exception("Empty vector passed to count_words_as_user_defined");
+	// check if empty
+	// count at the first word of a character
+	// then skip to a space, then skip until not space.
+
+
+	while (iter && invalid_character_check(*iter, vect))		// skip invalids to first valid character
+		++iter;
+
+	while (iter && !invalid_character_check(*iter, vect))
+	{
+		++count;
+		while (iter && !invalid_character_check(*iter, vect))	// skip valids
+			++iter;
+		while (iter && invalid_character_check(*iter, vect))		// skip invalids
+			++iter;
+	}
+
+	return count;
+}
+
+bool invalid_character_check(char iter_char, const std::vector<char>& vect) {
+	bool valid{ false };
+	for (char check : vect)
+		if (check == iter_char)
+			valid = true;
+	return valid;
+}
+
 int count_words_as_white_space_separated_characters(Document& doc) {
 	int count{ 0 };
 	Text_iterator iter = doc.begin();
@@ -10,7 +47,7 @@ int count_words_as_white_space_separated_characters(Document& doc) {
 	// count at the first word of a character
 	// then skip to a space, then skip until not space.
 	
-	while(iter && !std::isalnum(*iter))		// get to the first character
+	while(iter && !std::isalnum(*iter))		// skip invalids to first valid character
 		++iter;
 
 	while(iter && std::isalnum(*iter))
